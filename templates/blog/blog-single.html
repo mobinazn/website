@@ -26,72 +26,72 @@
 		<div class="row">
 			<div class="col-lg-8 posts-list">
 				<div class="single-post row">
+
 					<div class="col-lg-12">
 						<div class="feature-img">
-							<img class="img-fluid" src="{% static 'img/blog/feature-img1.jpg' %}" alt="">
+							<img class="img-fluid" src="{{post.image.url}}" alt="">
 						</div>
 					</div>
-					<div class="col-lg-3  col-md-3 meta-details">
-						<ul class="tags">
-							<li><a href="#">Food,</a></li>
-							<li><a href="#">Technology,</a></li>
-							<li><a href="#">Politics,</a></li>
-							<li><a href="#">Lifestyle</a></li>
-						</ul>
+					<div class="col-lg-13  col-md-12 meta-details">
 						<div class="user-details row">
-							<p class="user-name col-lg-12 col-md-12 col-6"><a href="#">Mark wiens</a> <span
+							<p class="user-name col-lg-3 col-md-6"><a href="#">{{post.author}}</a> <span
 									class="lnr lnr-user"></span></p>
-							<p class="date col-lg-12 col-md-12 col-6"><a href="#">12 Dec, 2017</a> <span
+							<p class="date col-lg-3 col-md-6"><a href="#">{{post.published_date|date:"D d M Y"}}</a> <span
 									class="lnr lnr-calendar-full"></span></p>
-							<p class="view col-lg-12 col-md-12 col-6"><a href="#">{{post.counted_views}} Views</a> <span
+							<p class="view col-lg-3 col-md-6"><a href="#">{{post.counted_views}} Views</a> <span
 									class="lnr lnr-eye"></span></p>
-							<p class="comments col-lg-12 col-md-12 col-6"><a href="#">06 Comments</a> <span
+							<p class="comments col-lg-3 col-md-6"><a href="#">06 Comments</a> <span
 									class="lnr lnr-bubble"></span></p>
-							<ul class="social-links col-lg-12 col-md-12 col-6">
-								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-								<li><a href="#"><i class="fa fa-github"></i></a></li>
-								<li><a href="#"><i class="fa fa-behance"></i></a></li>
-							</ul>
 						</div>
 					</div>
+					
 					<div class="col-lg-9 col-md-9">
 						<h3 class="mt-20 mb-20">{{post.title}}</h3>
 						{{post.content}}
-	
+
 					</div>
 				</div>
 				<div class="navigation-area">
 					<div class="row">
 						<div
 							class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+							{% if prev_post %}
 							<div class="thumb">
-								<a href="#"><img class="img-fluid" src="{% static 'img/blog/prev.jpg' %}" alt=""></a>
+								<a href="{% url 'blog:single' prev_post.id %}"><img class="img-fluid"
+										src="{{prev_post.image.url}}" alt=""
+										style="width: 70px; height: 70px; object-fit: cover;"></a>
 							</div>
 							<div class="arrow">
-								<a href="#"><span class="lnr text-white lnr-arrow-left"></span></a>
+								<a href="{% url 'blog:single' prev_post.id %}"><span
+										class="lnr text-white lnr-arrow-left"></span></a>
 							</div>
 							<div class="detials">
 								<p>Prev Post</p>
-								<a href="#">
-									<h4>Space The Final Frontier</h4>
+								<a href="{% url 'blog:single' prev_post.id %}">
+									<h4>{{ prev_post.title }}</h4>
 								</a>
 							</div>
+							{% endif %}
 						</div>
 						<div
 							class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+							{% if next_post %}
 							<div class="detials">
 								<p>Next Post</p>
-								<a href="#">
-									<h4>Telescopes 101</h4>
+								<a href="{% url 'blog:single' next_post.id %}">
+									<h4>{{ next_post.title }}</h4>
 								</a>
 							</div>
 							<div class="arrow">
-								<a href="#"><span class="lnr text-white lnr-arrow-right"></span></a>
+								<a href="{% url 'blog:single' next_post.id %}"><span
+										class="lnr text-white lnr-arrow-right"></span></a>
 							</div>
 							<div class="thumb">
-								<a href="#"><img class="img-fluid" src="{% static 'img/blog/next.jpg' %}" alt=""></a>
+								<a href="{% url 'blog:single' next_post.id %}"><img class="img-fluid"
+										src="{{next_post.image.url}}" alt=""
+										style="width: 70px; height: 70px; object-fit: cover;"></a>
 							</div>
+							{% endif %}
 						</div>
 					</div>
 				</div>
@@ -228,26 +228,9 @@
 							<button type="submit"><i class="fa fa-search"></i></button>
 						</form>
 					</div>
-					<div class="single-sidebar-widget user-info-widget">
-						<img src="{% static 'img/blog/user-info.png' %}" alt="">
-						<a href="#">
-							<h4>Charlie Barber</h4>
-						</a>
-						<p>
-							Senior blog writer
-						</p>
-						<ul class="social-links">
-							<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-							<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-							<li><a href="#"><i class="fa fa-github"></i></a></li>
-							<li><a href="#"><i class="fa fa-behance"></i></a></li>
-						</ul>
-						<p>
-							Boot camps have its supporters andit sdetractors. Some people do not understand why you
-							should have to spend money on boot camp when you can get. Boot camps have itssuppor ters
-							andits detractors.
-						</p>
-					</div>
+
+					{% include 'blog/blog-writer.html' %}
+
 					<div class="single-sidebar-widget popular-post-widget">
 						<h4 class="popular-title">Popular Posts</h4>
 						<div class="popular-post-list">
@@ -297,9 +280,9 @@
 							</div>
 						</div>
 					</div>
-					<div class="single-sidebar-widget ads-widget">
-						<a href="#"><img class="img-fluid" src="{% static 'img/blog/ads-banner.jpg' %}" alt=""></a>
-					</div>
+
+					{% include 'blog/blog-ads.html' %}
+
 					<div class="single-sidebar-widget post-category-widget">
 						<h4 class="category-title">Post Catgories</h4>
 						<ul class="cat-list">
